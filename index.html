@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Train Schedule</title>
+</head>
+
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>Trains, Trains, all Types of Trains</h1>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Train Schedule</h3>
+            </div>
+
+            <table class="table">
+                ...
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Add Your Train</h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                        <label for="train-name">Train Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="train-name">
+                        </div>
+                        <label for="destination">Destination</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="destination">
+                        </div>
+                        <label for="train-time">First Train Time (HH:MM - Military Time)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="train-time">
+                        </div>
+                        <label for="frequency">Frequency (min)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="frequency">
+                        </div>
+                        <button class="btn btn-default" type="button">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC6U18puBUYldXLxRAvmNSMO4fVzWQLPdw",
+            authDomain: "codingbootcamp-2018.firebaseapp.com",
+            databaseURL: "https://codingbootcamp-2018.firebaseio.com",
+            projectId: "codingbootcamp-2018",
+            storageBucket: "codingbootcamp-2018.appspot.com",
+            messagingSenderId: "785420945851"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/javascript/time.js"></script>
+</body>
+
+</html>
