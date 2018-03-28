@@ -37,7 +37,7 @@ $(document).ready(function () {
         var frequency = $("#frequency").val().trim();
 
         // store as new child on firebase
-        database.ref().push({
+        database.ref("/train").push({
             name: trainName,
             destination: destination,
             time: trainTime,
@@ -46,39 +46,47 @@ $(document).ready(function () {
 
     })
 
-    database.ref().on("child_added", function(snapshot) {
+    function getFireBaseData() {
+        $("table").empty();
+        $("table").append("<tr><th>Name</th><th>Destination</th><th>Frequency (min)</th><th>Next Arrival</th><th>Minutes Away</th></tr>");
 
-        // Get values from firebase and store in variables
-        var name = snapshot.val().name;
-        var dest = snapshot.val().destination;
-        var userTime = snapshot.val().time;
-        var freq = parseInt(snapshot.val().freq);
+        database.ref("/train").on("child_added", function (snapshot) {
 
-        // Convert user time and frequency
+            // Get values from firebase and store in variables
+            var name = snapshot.val().name;
+            var dest = snapshot.val().destination;
+            var userTime = snapshot.val().time;
+            var freq = parseInt(snapshot.val().freq);
 
-        // take use time and subtract one year to make sure it is before todays time
-        var utConvert = moment(userTime, "HH:mm").subtract(1, "years");
-        // Compare difference between now and user time in MINUTES
-        var diffTime = moment().diff(moment(utConvert), "minutes");
-        // Get the modulus from the difference and train frequency
-        var tRemain = diffTime % freq;
-        // Minutes difference between full frequency and left over from difference time modulus
-        var tMinus = freq - tRemain;
-        // Add the left over time to now and display in HH:mm
-        var nextTrain = moment().add(tMinus, "minutes").format("HH:mm");
+            // Convert user time and frequency
 
-        // Print info to html
-        var tableRow = $("<tr>");
-        tableRow.append("<td>" + name + "</td>");
-        tableRow.append("<td>" + dest + "</td>");
-        tableRow.append("<td>" + freq + "</td>");
-        tableRow.append("<td>" + nextTrain + "</td>");
-        tableRow.append("<td>" + tMinus + "</td>");
+            // take use time and subtract one year to make sure it is before todays time
+            var utConvert = moment(userTime, "HH:mm").subtract(1, "years");
+            // Compare difference between now and user time in MINUTES
+            var diffTime = moment().diff(moment(utConvert), "minutes");
+            // Get the modulus from the difference and train frequency
+            var tRemain = diffTime % freq;
+            // Minutes difference between full frequency and left over from difference time modulus
+            var tMinus = freq - tRemain;
+            // Add the left over time to now and display in HH:mm
+            var nextTrain = moment().add(tMinus, "minutes").format("HH:mm");
 
-        $(".table").append(tableRow);
+            // Print info to html
+            var tableRow = $("<tr>");
+            tableRow.append("<td>" + name + "</td>");
+            tableRow.append("<td>" + dest + "</td>");
+            tableRow.append("<td>" + freq + "</td>");
+            tableRow.append("<td>" + nextTrain + "</td>");
+            tableRow.append("<td>" + tMinus + "</td>");
 
+            $(".table").append(tableRow);
+        })
 
+    }
 
-    })
+    getFireBaseData();
+
+    setInterval(getFireBaseData, 1000);
+
 
 })

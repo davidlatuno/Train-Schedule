@@ -1,0 +1,32 @@
+body {
+    background: url(../images/scribble_light.png);
+}
+
+.input-group {
+    width: 100%;
+}
+
+#current-time {
+    font-size: 30px;
+}
+
+.jumbotron {
+    background: burlywood !important;
+    color: white !important;
+}
+
+.panel-heading {
+    background: darkcyan !important;
+}
+
+.panel {
+    border-color: darkcyan !important;
+}
+
+.panel-heading h3 {
+    color: white;
+}
+
+table {
+    font-size: 18px;
+}
