@@ -10,7 +10,7 @@ $(document).ready(function () {
         var seconds = date.getSeconds();
 
         if (hours < 10) {
-            hours = "0" + seconds;
+            hours = "0" + hours;
         }
         if (minutes === 0) {
             minutes = "00";
