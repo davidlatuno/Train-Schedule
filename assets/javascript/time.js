@@ -1,3 +1,6 @@
+var database = firebase.database();
+
+
 $(document).ready(function () {
 
     function time() {
@@ -26,12 +29,6 @@ $(document).ready(function () {
     setInterval(time, 1000);
 
     $(".btn").click(function () {
-        var date = new Date();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-
-        var hourDiff = 0;
-        var minuteDiff = 0;
 
         var trainName = $("#train-name").val().trim();
         var destination = $("#destination").val().trim();
@@ -39,49 +36,51 @@ $(document).ready(function () {
         var frequency = $("#frequency").val().trim();
 
 
-
-
-        function timeDifference() {
-
-            var userTime = trainTime.split(":");
-            var userHour = parseInt(userTime[0]);
-            var userMinutes = parseInt(userTime[1]);
-
-            if ((userHour - hours) < 0 && (userMinutes - minutes) > 0) {
-                hourDiff = (userHour - hours) + 24;
-            } else if ((userHour - hours) < 0 && (userMinutes - minutes) < 0) {
-                hourDiff = (userHour - hours) + 23;
-            } else if ((userHour - hours) > 0 && (userMinutes - minutes) < 0) {
-                hourDiff = (userHour - hours) - 1;
-            } else if ((userHour - hours) < 0 && userMinutes === minutes) {
-                hourDiff = userHour - hours + 24;
-            } else {
-                hourDiff = userHour - hours;
-            }
-            if ((userMinutes - minutes) < 0) {
-                minuteDiff = (userMinutes - minutes) + 60;
-            } else {
-                minuteDiff = userMinutes - minutes;
-            }
-
-            console.log(hourDiff);
-            console.log(minuteDiff);
-
-        }
-
-        timeDifference();
-
+        database.ref().push({
+            name: trainName,
+            destination: destination,
+            time: trainTime,
+            freq: frequency
+        })
 
 
 
         var tableRow = $("<tr>");
         tableRow.append("<td>" + trainName + "</td>");
-        tableRow.append("<td>" + trainName + "</td>");
-        tableRow.append("<td>" + trainName + "</td>");
+        tableRow.append("<td>" + destination + "</td>");
+        tableRow.append("<td>" + frequency + "</td>");
         tableRow.append("<td>" + trainName + "</td>");
         tableRow.append("<td>" + trainName + "</td>");
 
         $(".table").append(tableRow);
+
+    })
+
+    database.ref().on("child_added", function(snapshot) {
+
+        var name = snapshot.val().name;
+        var dest = snapshot.val().destination;
+        var userTime = snapshot.val().time;
+        var freq = parseInt(snapshot.val().freq);
+
+        var utConvert = moment(userTime, "HH:mm").subtract(1, "years");
+        var now = moment();
+        var diffTime = moment().diff(moment(utConvert), "minutes");
+        var tRemain = diffTime % freq;
+        var tMinus = freq - tRemain;
+        var nextTrain = moment().add(tMinus, "minutes").format("HH:mm");
+        console.log(nextTrain);
+
+
+        var tableRow = $("<tr>");
+        tableRow.append("<td>" + name + "</td>");
+        tableRow.append("<td>" + dest + "</td>");
+        tableRow.append("<td>" + freq + "</td>");
+        tableRow.append("<td>" + nextTrain + "</td>");
+        tableRow.append("<td>" + tMinus + "</td>");
+
+        $(".table").append(tableRow);
+
 
 
     })
