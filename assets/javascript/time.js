@@ -81,11 +81,18 @@ $(document).ready(function () {
             $("tbody").append(tableRow);
         })
 
+        // Update values every minute
+        var time = new Date();
+        var secsTillNextMin = 60 - time.getSeconds();
+
+        setTimeout(function() {
+
+            getFireBaseData();
+        }, secsTillNextMin * 1000);
+
     }
 
     getFireBaseData();
-
-    setInterval(getFireBaseData, 1000 * 60);
 
 
 })
