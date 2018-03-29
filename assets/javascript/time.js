@@ -47,8 +47,7 @@ $(document).ready(function () {
     })
 
     function getFireBaseData() {
-        $("table").empty();
-        $("table").append("<tr><th>Name</th><th>Destination</th><th>Frequency (min)</th><th>Next Arrival</th><th>Minutes Away</th></tr>");
+        $("tbody").empty();
 
         database.ref("/train").on("child_added", function (snapshot) {
 
@@ -79,14 +78,14 @@ $(document).ready(function () {
             tableRow.append("<td>" + nextTrain + "</td>");
             tableRow.append("<td>" + tMinus + "</td>");
 
-            $(".table").append(tableRow);
+            $("tbody").append(tableRow);
         })
 
     }
 
     getFireBaseData();
 
-    setInterval(getFireBaseData, 1000);
+    setInterval(getFireBaseData, 1000 * 60);
 
 
 })
