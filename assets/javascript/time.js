@@ -42,8 +42,16 @@ $(document).ready(function () {
             destination: destination,
             time: trainTime,
             freq: frequency
-        })
+        });
 
+        // Clear Fields on submit
+        $("#train-name").val("");
+        $("#destination").val("");
+        $("#train-time").val("");
+        $("#frequency").val("");
+
+        // Populate html
+        getFireBaseData();
     })
 
     function getFireBaseData() {
@@ -85,10 +93,7 @@ $(document).ready(function () {
         var time = new Date();
         var secsTillNextMin = 60 - time.getSeconds();
 
-        setTimeout(function() {
-
-            getFireBaseData();
-        }, secsTillNextMin * 1000);
+        setTimeout(getFireBaseData, secsTillNextMin * 1000);
 
     }
 
